@@ -1,50 +1,25 @@
-import Tag from '../Tag'
-import estrela from '../../assets/images/estrela-nota.png'
-import Button from '../Button'
+import pizza from '../../assets/images/imagem-pizza.png'
 import {
-  Card,
-  Image,
-  Descricao,
-  Titulo,
-  Nota,
-  CardContainer,
-  Infos,
-  ContainerDescription,
-  ContainerHead,
-  ContainerNota,
-  ImageNota
+  ProductContainer,
+  ProductImage,
+  ProductInfo,
+  ProductTitle,
+  ProductButton,
+  Container
 } from './styles'
 
-type Props = {
-  title: string
-  nota: string
-  description: string
-  infos: string[]
-  image: string
-}
-
-const Product = ({ description, image, infos, nota, title }: Props) => (
-  <CardContainer>
-    <Card>
-      <Image src={image} />
-      <Infos>
-        {infos.map((info) => (
-          <Tag key={info}>{info}</Tag>
-        ))}
-      </Infos>
-      <ContainerDescription>
-        <ContainerHead>
-          <Titulo>{title}</Titulo>
-          <ContainerNota>
-            <Nota>{nota}</Nota>
-            <ImageNota src={estrela} />
-          </ContainerNota>
-        </ContainerHead>
-        <Descricao>{description}</Descricao>
-        <Button type="link">Saiba Mais</Button>
-      </ContainerDescription>
-    </Card>
-  </CardContainer>
+const Product = () => (
+  <ProductContainer>
+    <Container>
+      <ProductImage src={pizza} alt="pizza" />
+      <ProductTitle>Pizza Marguerita</ProductTitle>
+      <ProductInfo>
+        A clássica Marguerita: molho de tomate suculento, mussarela derretida,
+        manjericão fresco e um toque de azeite. Sabor e simplicidade!
+      </ProductInfo>
+      <ProductButton>Adicionar ao carrinho</ProductButton>
+    </Container>
+  </ProductContainer>
 )
 
 export default Product
