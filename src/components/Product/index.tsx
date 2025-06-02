@@ -1,25 +1,83 @@
-import pizza from '../../assets/images/imagem-pizza.png'
+import { useEffect, useState } from 'react'
+
+import Button from '../Button'
 import {
   ProductContainer,
   ProductImage,
   ProductInfo,
   ProductTitle,
   ProductButton,
-  Container
+  Container,
+  Modal,
+  ModalContent,
+  Image,
+  ImageFechar,
+  Title,
+  Descricao
 } from './styles'
 
-const Product = () => (
-  <ProductContainer>
-    <Container>
-      <ProductImage src={pizza} alt="pizza" />
-      <ProductTitle>Pizza Marguerita</ProductTitle>
-      <ProductInfo>
-        A clássica Marguerita: molho de tomate suculento, mussarela derretida,
-        manjericão fresco e um toque de azeite. Sabor e simplicidade!
-      </ProductInfo>
-      <ProductButton>Adicionar ao carrinho</ProductButton>
-    </Container>
-  </ProductContainer>
-)
+import fechar from '../../assets/images/fechar.png'
+import { StoreProduct } from '../../pages/Home'
+
+const formataPreco = (preco = 0) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(preco)
+}
+
+const Product = () => {
+  const [modalEstaAberto, setModalEstaAberto] = useState(false)
+  const [produtos, setProdutos] = useState<StoreProduct>()
+
+  useEffect(() => {
+    fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
+      .then((res) => res.json())
+      .then((res) => setProdutos(res))
+  }, [])
+
+  if (!produtos) {
+    return <div>Carregando ...</div>
+  }
+
+  return (
+    <>
+      <ProductContainer>
+        <Container>
+          <ProductImage src={produtos?.cardapio.foto} alt="pizza" />
+          <ProductTitle>{produtos?.cardapio.nome}</ProductTitle>
+          <ProductInfo>{produtos?.cardapio.descricao}</ProductInfo>
+          <ProductButton onClick={() => setModalEstaAberto(true)}>
+            Saiba Mais
+          </ProductButton>
+        </Container>
+      </ProductContainer>
+      <Modal className={modalEstaAberto ? 'visivel' : ''}>
+        <ModalContent className="container">
+          <div>
+            <Image src={produtos?.cardapio.foto} alt="imagem pizza" />
+          </div>
+          <div>
+            <Title>{produtos?.cardapio.nome}</Title>
+            <ImageFechar
+              onClick={() => setModalEstaAberto(false)}
+              src={fechar}
+              alt="clique para fechar"
+            />
+            <Descricao>{produtos?.cardapio.descricao}</Descricao>
+            <Descricao>{produtos?.cardapio.porcao}</Descricao>
+            <Button type="button">
+              Adicionar ao carrinho: {formataPreco(produtos?.cardapio.preco)}
+            </Button>
+          </div>
+        </ModalContent>
+        <div
+          onClick={() => setModalEstaAberto(false)}
+          className="overlay"
+        ></div>
+      </Modal>
+    </>
+  )
+}
 
 export default Product

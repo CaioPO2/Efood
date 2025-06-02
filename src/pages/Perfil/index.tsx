@@ -3,13 +3,15 @@ import Footer from '../../components/Footer'
 import HeroPerfil from '../../components/HeroPerfil'
 import ProductList from '../../components/ProductList'
 
-const Perfil = () => (
-  <>
-    <HeroPerfil />
-    <Banner />
-    <ProductList />
-    <Footer />
-  </>
-)
+const Perfil = () => {
+  return (
+    <>
+      <HeroPerfil />
+      <Banner />
+      <ProductList />
+      <Footer />
+    </>
+  )
+}
 
 export default Perfil
